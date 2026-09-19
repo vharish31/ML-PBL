@@ -1,0 +1,6 @@
+{
+  "name": "Smart Energy Consumption Forecasting System",
+  "description": "Production-ready machine learning system that analyzes historical household energy data and environmental conditions to predict appliance energy consumption.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
