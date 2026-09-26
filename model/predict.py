@@ -1,7 +1,7 @@
 """
 Smart Energy Consumption Forecasting System
 Prediction Module
-College Machine Learning PBL Project
+Machine Learning Energy Intelligence Platform
 
 Handles model loading, input validation, cyclic datetime feature engineering,
 and inference calculation.

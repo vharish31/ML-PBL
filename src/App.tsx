@@ -10,9 +10,6 @@ import { FeatureImportance } from './components/FeatureImportance';
 import { EdaView } from './components/EdaView';
 import { GroundTruthVerification } from './components/GroundTruthVerification';
 import { EnergyManagement } from './components/EnergyManagement';
-import { ApiPlayground } from './components/ApiPlayground';
-import { AcademicReport } from './components/AcademicReport';
-import { PythonSourceView } from './components/PythonSourceView';
 import { CommandPalette } from './components/CommandPalette';
 
 import { 
@@ -112,15 +109,16 @@ export default function App() {
     showToast('All notifications cleared.');
   };
 
-  const activeModelName = useMemo(() => {
-    switch (selectedModelId) {
-      case 'rf-baseline': return 'Random Forest (R²=0.5468)';
-      case 'xgb-tuned': return 'XGBoost (R²=0.5793)';
-      case 'lgbm-tuned': return 'LightGBM (R²=0.5677)';
-      case 'ensemble-blended': return 'Weighted Ensemble (R²=0.5934)';
-      default: return 'Random Forest';
-    }
-  }, [selectedModelId]);
+  const handleSelectModel = (modelId: 'rf-baseline' | 'xgb-tuned' | 'lgbm-tuned' | 'ensemble-blended') => {
+    setSelectedModelId(modelId);
+    const names: Record<string, string> = {
+      'rf-baseline': 'Random Forest (Baseline)',
+      'xgb-tuned': 'XGBoost',
+      'lgbm-tuned': 'LightGBM',
+      'ensemble-blended': 'Weighted Ensemble',
+    };
+    showToast(`Switched active model to ${names[modelId] || modelId}. Forecasting analysis updated.`);
+  };
 
   return (
     <div className="min-h-screen bg-slate-50/60 text-slate-800 antialiased flex flex-col font-sans selection:bg-emerald-100 selection:text-emerald-900">
@@ -135,7 +133,8 @@ export default function App() {
         unreadNotificationsCount={notifications.filter((n) => !n.read).length}
         sidebarOpen={mobileSidebarOpen}
         setSidebarOpen={setMobileSidebarOpen}
-        activeModelName={activeModelName}
+        selectedModelId={selectedModelId}
+        onSelectModel={handleSelectModel}
         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
       />
 
@@ -212,10 +211,7 @@ export default function App() {
               onInputChange={setInputs}
               prediction={currentPrediction}
               selectedModelId={selectedModelId}
-              onModelChange={(m) => {
-                setSelectedModelId(m);
-                showToast(`Switched active inference model to ${m}`);
-              }}
+              onModelChange={handleSelectModel}
               onResetToBaseline={handleResetToBaseline}
             />
           )}
@@ -231,10 +227,7 @@ export default function App() {
           {activeView === 'benchmarks' && (
             <ModelBenchmarks
               selectedModelId={selectedModelId}
-              onSelectModel={(m) => {
-                setSelectedModelId(m);
-                showToast(`Active benchmark model set to ${m}`);
-              }}
+              onSelectModel={handleSelectModel}
             />
           )}
 
@@ -255,18 +248,6 @@ export default function App() {
 
           {activeView === 'energy_mgmt' && (
             <EnergyManagement />
-          )}
-
-          {activeView === 'api' && (
-            <ApiPlayground currentInputs={inputs} />
-          )}
-
-          {activeView === 'academic' && (
-            <AcademicReport />
-          )}
-
-          {activeView === 'python_files' && (
-            <PythonSourceView />
           )}
         </main>
       </div>
@@ -380,21 +361,6 @@ export default function App() {
               </h4>
               <ul className="space-y-1.5 text-xs text-slate-500">
                 <li>
-                  <button onClick={() => { setActiveView('api'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-emerald-700 transition">
-                    Flask REST API Console
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => { setActiveView('python_files'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-emerald-700 transition">
-                    Python Pipeline Sources
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => { setActiveView('academic'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-emerald-700 transition">
-                    IEEE PBL Research Paper
-                  </button>
-                </li>
-                <li>
                   <button onClick={() => { setActiveView('energy_mgmt'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-emerald-700 transition">
                     Energy Decision Support
                   </button>
@@ -411,7 +377,7 @@ export default function App() {
           {/* Bottom copyright & attribution */}
           <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
             <div>
-              © 2026 GridPulse AI • Smart Energy Consumption Forecasting PBL Project.
+              © 2026 GridPulse AI • Smart Energy Consumption Forecasting Platform.
             </div>
             <div className="flex items-center gap-4 text-[11px]">
               <span>UCI Machine Learning Repository: Appliances Energy</span>

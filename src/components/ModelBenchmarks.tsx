@@ -68,16 +68,14 @@ export const ModelBenchmarks: React.FC<ModelBenchmarksProps> = ({
         </div>
       </div>
 
-      {/* Critical Academic Fallacy Warning */}
+      {/* Regression Metric Formulation Banner */}
       <div className="rounded-2xl border border-blue-200 bg-blue-50/50 p-4">
         <div className="flex items-start gap-3">
           <Info className="h-4 w-4 text-blue-700 mt-0.5 shrink-0" />
           <div className="text-xs text-blue-950 leading-relaxed">
-            <span className="font-bold">Academic Distinction on Regression Evaluation: </span>
-            Do <strong>NOT</strong> describe R² = 0.5468 as &ldquo;54.68% prediction accuracy.&rdquo;
-            In regression analysis, accuracy percentage is not a mathematically valid metric.
-            The correct technical formulation is:
-            <em> &ldquo;An R² score of 0.5468 means that approximately 54.68% of the variance in appliance energy consumption is explained by the model relative to a baseline mean model on the evaluated test set.&rdquo;</em>
+            <span className="font-bold">Regression Metric Formulation: </span>
+            In regression analysis, R² represents the coefficient of determination rather than binary classification accuracy percentage.
+            The model achieves an R² score of 0.5468, explaining approximately 54.68% of total variance in appliance electrical draw relative to the baseline mean model on the chronological holdout test set.
           </div>
         </div>
       </div>

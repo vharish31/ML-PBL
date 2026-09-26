@@ -8,9 +8,6 @@ import {
   LineChart,
   CheckCircle2,
   ShieldCheck,
-  Terminal,
-  GraduationCap,
-  Code2,
   Database,
   Radio,
   X,
@@ -49,12 +46,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
       ],
     },
     {
-      title: 'Decision Support & Specs',
+      title: 'Decision Support',
       items: [
         { id: 'energy_mgmt', label: 'Energy Management', icon: ShieldCheck },
-        { id: 'api', label: 'Flask REST API', icon: Terminal, badge: 'v1' },
-        { id: 'academic', label: 'Academic PBL Report', icon: GraduationCap, badge: 'IEEE' },
-        { id: 'python_files', label: 'Python Source Files', icon: Code2, badge: 'Code' },
       ],
     },
   ];

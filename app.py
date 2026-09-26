@@ -1,7 +1,7 @@
 """
 Smart Energy Consumption Forecasting System
 Flask REST API Backend
-College Machine Learning PBL Project
+Machine Learning Energy Intelligence Platform
 
 Exposes REST endpoints for prediction, simulation, and model telemetry.
 """

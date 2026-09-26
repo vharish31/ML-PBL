@@ -74,18 +74,15 @@ export const FeatureImportance: React.FC = () => {
         </div>
       </div>
 
-      {/* Critical Academic Non-Causation Banner */}
+      {/* ML Engineering Principle Banner */}
       <div className="rounded-2xl border border-amber-200 bg-amber-50/50 p-4">
         <div className="flex items-start gap-3">
           <AlertTriangle className="h-4 w-4 text-amber-600 mt-0.5 shrink-0" />
           <div className="text-xs text-amber-900 leading-relaxed">
-            <span className="font-bold">Academic Principle — Predictive Reliance vs. Physical Causation: </span>
+            <span className="font-bold">ML Principle — Predictive Importance vs. Physical Causation: </span>
             Feature importance scores measure how much a feature reduces impurity (variance) across decision tree splits.
-            It does <strong>NOT</strong> prove direct physical causation.
-            Do not state: <em>&ldquo;Temperature causes appliance energy consumption.&rdquo;</em>
-            The correct academic statement is:
-            <em> &ldquo;Temperature is an important predictive feature according to the machine learning model.&rdquo;</em>
-            Likewise, lighting (Wh) is a strong proxy for active occupant presence rather than a physical cause of appliance consumption.
+            It reflects predictive correlation rather than direct physical causation.
+            Rather than asserting temperature directly causes instantaneous appliance draw, the model identifies temperature and humidity sensors as reliable multi-room proxies for domestic occupancy and thermal activity cycles.
           </div>
         </div>
       </div>

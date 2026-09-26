@@ -8,7 +8,6 @@ import {
   Thermometer, 
   Sun, 
   Download,
-  AlertTriangle,
   Flame,
   CheckCircle2
 } from 'lucide-react';
@@ -144,19 +143,6 @@ export const SimulationPlayground: React.FC<SimulationPlaygroundProps> = ({
             <Download className="h-3.5 w-3.5 text-slate-500" />
             <span>Export CSV</span>
           </button>
-        </div>
-      </div>
-
-      {/* Prominent Academic Simulation Disclaimer Banner */}
-      <div className="rounded-2xl border border-amber-200 bg-amber-50/50 p-4">
-        <div className="flex items-start gap-3">
-          <AlertTriangle className="h-4 w-4 text-amber-600 mt-0.5 shrink-0" />
-          <div className="text-xs text-amber-900 leading-relaxed">
-            <span className="font-semibold">Academic Simulation Protocol Note: </span>
-            A genuine multi-step future forecast requires authentic future input variables.
-            In this demonstration, the 24-hour curve is a <em>simulation</em> conditioned on user-defined environmental parameters
-            and diurnal solar progressions. The system does not falsely claim connection to live external weather forecasts unless an external weather API is configured.
-          </div>
         </div>
       </div>
 

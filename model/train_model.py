@@ -1,7 +1,7 @@
 """
 Smart Energy Consumption Forecasting System
 Model Training & Evaluation Pipeline
-College Machine Learning PBL Project
+Machine Learning Energy Intelligence Platform
 
 Target: Appliances (Watt-hours)
 Dataset: KAG_energydata_complete.csv (19,735 records, 10-minute intervals)

@@ -9,9 +9,6 @@ import {
   LineChart, 
   CheckCircle2, 
   ShieldCheck, 
-  Terminal, 
-  GraduationCap, 
-  Code2, 
   Sparkles, 
   ArrowRight, 
   CornerDownLeft,
@@ -151,40 +148,6 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
         icon: ShieldCheck,
         action: () => {
           onNavigate('energy_mgmt');
-          onClose();
-        },
-      },
-      {
-        id: 'nav-api',
-        category: 'Navigation',
-        title: 'Flask REST API Playground',
-        subtitle: 'Interactive endpoint tester for /api/predict and /api/metrics',
-        icon: Terminal,
-        badge: 'REST',
-        action: () => {
-          onNavigate('api');
-          onClose();
-        },
-      },
-      {
-        id: 'nav-academic',
-        category: 'Navigation',
-        title: 'Academic PBL Capstone Report',
-        subtitle: 'Complete IEEE/ACM formatted paper, methodology, and 10 viva voce Q&As',
-        icon: GraduationCap,
-        action: () => {
-          onNavigate('academic');
-          onClose();
-        },
-      },
-      {
-        id: 'nav-python_files',
-        category: 'Navigation',
-        title: 'Python Source Code Viewer',
-        subtitle: 'Inspect train_model.py, predict.py, and app.py scripts',
-        icon: Code2,
-        action: () => {
-          onNavigate('python_files');
           onClose();
         },
       },

@@ -1,6 +1,5 @@
 # SMART ENERGY CONSUMPTION FORECASTING SYSTEM
 **A Machine Learning-Based Predictive Analytics and Energy Management System**  
-*College Machine Learning Problem-Based Learning (PBL) Project*
 
 ---
 
