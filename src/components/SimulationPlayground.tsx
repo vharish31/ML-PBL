@@ -21,7 +21,7 @@ import {
   ResponsiveContainer, 
   Legend 
 } from 'recharts';
-import { EnvironmentalSensorInputs, SimulationPreset } from '../types';
+import { EnvironmentalSensorInputs, SimulationPreset, SupportedModelId } from '../types';
 import { SIMULATION_PRESETS } from '../data/mlData';
 import { generate24HourSimulation } from '../services/forecastEngine';
 import { formatWh, formatHour } from '../utils/formatters';
@@ -29,7 +29,7 @@ import { formatWh, formatHour } from '../utils/formatters';
 interface SimulationPlaygroundProps {
   currentInputs: EnvironmentalSensorInputs;
   onInputChange: (newInputs: EnvironmentalSensorInputs) => void;
-  selectedModelId: 'rf-baseline' | 'xgb-tuned' | 'lgbm-tuned' | 'ensemble-blended';
+  selectedModelId: SupportedModelId;
 }
 
 export const SimulationPlayground: React.FC<SimulationPlaygroundProps> = ({

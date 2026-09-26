@@ -24,8 +24,8 @@ import {
   ResponsiveContainer, 
   Legend 
 } from 'recharts';
-import { EnvironmentalSensorInputs, PredictionResult, SimulationPreset } from '../types';
-import { SIMULATION_PRESETS } from '../data/mlData';
+import { EnvironmentalSensorInputs, PredictionResult, SimulationPreset, SupportedModelId } from '../types';
+import { MODEL_EVALUATION_METRICS, SIMULATION_PRESETS } from '../data/mlData';
 import { formatWh, formatTemp, formatHumidity, getTierColor } from '../utils/formatters';
 import { generate24HourSimulation } from '../services/forecastEngine';
 
@@ -34,7 +34,7 @@ interface DashboardOverviewProps {
   prediction: PredictionResult;
   onApplyPreset: (preset: SimulationPreset) => void;
   onNavigate: (view: string) => void;
-  selectedModelId: 'rf-baseline' | 'xgb-tuned' | 'lgbm-tuned' | 'ensemble-blended';
+  selectedModelId: SupportedModelId;
 }
 
 export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
@@ -47,6 +47,10 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
   const diurnalData = React.useMemo(() => {
     return generate24HourSimulation(currentInputs, selectedModelId);
   }, [currentInputs, selectedModelId]);
+
+  const activeModelMeta = React.useMemo(() => {
+    return MODEL_EVALUATION_METRICS.find((m) => m.id === selectedModelId) || MODEL_EVALUATION_METRICS[0];
+  }, [selectedModelId]);
 
   const tierColors = getTierColor(prediction.consumption_level);
 
@@ -131,20 +135,24 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           </div>
         </div>
 
-        {/* Baseline Model R² Metric */}
+        {/* Active Model R² Metric */}
         <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-500">Random Forest R² Score</span>
+            <span className="text-xs font-medium text-slate-500">
+              {activeModelMeta.algorithm} R² Score
+            </span>
             <Cpu className="h-4 w-4 text-emerald-600" />
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold tracking-tight text-slate-900">
-              0.5468
+            <span className="text-3xl font-extrabold tracking-tight text-slate-900 font-mono">
+              {activeModelMeta.r2.toFixed(4)}
             </span>
-            <span className="text-xs font-semibold text-emerald-700">54.68% Var</span>
+            <span className="text-xs font-semibold text-emerald-700">
+              {(activeModelMeta.r2 * 100).toFixed(1)}% Var
+            </span>
           </div>
           <div className="mt-2 text-[11px] text-slate-500 border-t border-slate-100 pt-2 leading-tight">
-            Explains 54.68% target variance on holdout test set (not "accuracy %").
+            Explains {(activeModelMeta.r2 * 100).toFixed(1)}% target variance on holdout test set.
           </div>
         </div>
 
@@ -156,17 +164,23 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           </div>
           <div className="mt-3 flex items-baseline justify-between">
             <div>
-              <span className="text-xl font-extrabold tracking-tight text-slate-900">32.03</span>
+              <span className="text-xl font-extrabold tracking-tight text-slate-900 font-mono">
+                {activeModelMeta.mae.toFixed(1)}
+              </span>
               <span className="text-[10px] text-slate-400 block">MAE (Wh)</span>
             </div>
             <div className="h-8 w-px bg-slate-200" />
             <div>
-              <span className="text-xl font-extrabold tracking-tight text-slate-900">67.34</span>
+              <span className="text-xl font-extrabold tracking-tight text-slate-900 font-mono">
+                {activeModelMeta.rmse.toFixed(1)}
+              </span>
               <span className="text-[10px] text-slate-400 block">RMSE (Wh)</span>
             </div>
             <div className="h-8 w-px bg-slate-200" />
             <div>
-              <span className="text-xl font-extrabold tracking-tight text-slate-900">4534</span>
+              <span className="text-xl font-extrabold tracking-tight text-slate-900 font-mono">
+                {activeModelMeta.mse.toFixed(0)}
+              </span>
               <span className="text-[10px] text-slate-400 block">MSE (Wh²)</span>
             </div>
           </div>

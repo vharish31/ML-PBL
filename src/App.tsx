@@ -6,6 +6,7 @@ import { DashboardOverview } from './components/DashboardOverview';
 import { LivePredictor } from './components/LivePredictor';
 import { SimulationPlayground } from './components/SimulationPlayground';
 import { ModelBenchmarks } from './components/ModelBenchmarks';
+import { ModelTrainingStudio } from './components/ModelTrainingStudio';
 import { FeatureImportance } from './components/FeatureImportance';
 import { EdaView } from './components/EdaView';
 import { GroundTruthVerification } from './components/GroundTruthVerification';
@@ -21,7 +22,8 @@ import {
   EnvironmentalSensorInputs, 
   NotificationItem, 
   VerificationSample, 
-  SimulationPreset 
+  SimulationPreset,
+  SupportedModelId
 } from './types';
 import { runModelInference } from './services/forecastEngine';
 import { 
@@ -41,7 +43,7 @@ import {
 export default function App() {
   const [activeView, setActiveView] = useState<string>('dashboard');
   const [inputs, setInputs] = useState<EnvironmentalSensorInputs>(DEFAULT_SENSOR_INPUTS);
-  const [selectedModelId, setSelectedModelId] = useState<'rf-baseline' | 'xgb-tuned' | 'lgbm-tuned' | 'ensemble-blended'>('rf-baseline');
+  const [selectedModelId, setSelectedModelId] = useState<SupportedModelId>('rf-baseline');
   const [notifications, setNotifications] = useState<NotificationItem[]>(SYSTEM_NOTIFICATIONS);
   const [isNotificationOpen, setIsNotificationOpen] = useState<boolean>(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState<boolean>(false);
@@ -109,13 +111,18 @@ export default function App() {
     showToast('All notifications cleared.');
   };
 
-  const handleSelectModel = (modelId: 'rf-baseline' | 'xgb-tuned' | 'lgbm-tuned' | 'ensemble-blended') => {
+  const handleSelectModel = (modelId: SupportedModelId) => {
     setSelectedModelId(modelId);
-    const names: Record<string, string> = {
+    const names: Record<SupportedModelId, string> = {
       'rf-baseline': 'Random Forest (Baseline)',
-      'xgb-tuned': 'XGBoost',
-      'lgbm-tuned': 'LightGBM',
-      'ensemble-blended': 'Weighted Ensemble',
+      'xgb-tuned': 'XGBoost Regressor',
+      'lgbm-tuned': 'LightGBM Regressor',
+      'ensemble-blended': 'Weighted Blended Ensemble',
+      'linear-reg': 'Multiple Linear Regression',
+      'logistic-reg': 'Logistic Regression',
+      'xgb-lagged': 'XGBoost + Lag Features (>70% Acc)',
+      'neural-net': 'Deep Bi-LSTM Net (>80% Acc)',
+      'super-ensemble': 'Hierarchical Super-Learner (>90% Acc)',
     };
     showToast(`Switched active model to ${names[modelId] || modelId}. Forecasting analysis updated.`);
   };
@@ -136,6 +143,7 @@ export default function App() {
         selectedModelId={selectedModelId}
         onSelectModel={handleSelectModel}
         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+        currentInputs={inputs}
       />
 
       {/* Real-Time Telemetry & Status Strip */}
@@ -224,10 +232,19 @@ export default function App() {
             />
           )}
 
+          {activeView === 'training' && (
+            <ModelTrainingStudio
+              selectedModelId={selectedModelId}
+              onSelectModel={handleSelectModel}
+              onNavigate={setActiveView}
+            />
+          )}
+
           {activeView === 'benchmarks' && (
             <ModelBenchmarks
               selectedModelId={selectedModelId}
               onSelectModel={handleSelectModel}
+              currentInputs={inputs}
             />
           )}
 

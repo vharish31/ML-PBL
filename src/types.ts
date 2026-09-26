@@ -39,6 +39,17 @@ export interface EnvironmentalSensorInputs {
   rv2?: number; // Random variable 2
 }
 
+export type SupportedModelId = 
+  | 'rf-baseline' 
+  | 'xgb-tuned' 
+  | 'lgbm-tuned' 
+  | 'ensemble-blended' 
+  | 'linear-reg' 
+  | 'logistic-reg'
+  | 'xgb-lagged'
+  | 'neural-net'
+  | 'super-ensemble';
+
 export interface PredictionResult {
   predicted_wh: number;
   lower_bound: number;
@@ -57,6 +68,7 @@ export interface PredictionResult {
   model_used: string;
   latency_ms: number;
   timestamp: string;
+  surge_probability?: number;
 }
 
 export interface ModelMetric {
@@ -67,7 +79,7 @@ export interface ModelMetric {
   mse: number;
   rmse: number;
   r2: number;
-  status: 'baseline' | 'candidate' | 'optimized' | 'evaluated';
+  status: 'baseline' | 'candidate' | 'optimized' | 'evaluated' | 'state-of-the-art';
   notes: string;
   training_time: string;
   inference_speed: string;

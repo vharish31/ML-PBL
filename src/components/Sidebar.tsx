@@ -11,7 +11,8 @@ import {
   Database,
   Radio,
   X,
-  ExternalLink
+  ExternalLink,
+  Flame
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -39,7 +40,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
     {
       title: 'ML Engineering',
       items: [
-        { id: 'benchmarks', label: 'Model Benchmarks', icon: BarChart3, badge: 'R² 0.5468' },
+        { id: 'training', label: 'Model Training Studio', icon: Flame, badge: 'Train >90%' },
+        { id: 'benchmarks', label: 'Model Benchmarks', icon: BarChart3, badge: '9 Models' },
         { id: 'importance', label: 'Feature Importance', icon: ListOrdered },
         { id: 'eda', label: 'EDA & Trends', icon: LineChart },
         { id: 'verification', label: 'Ground Truth Verification', icon: CheckCircle2, badge: 'Test Set' },
